@@ -1,5 +1,6 @@
 {
   "recommendations": [
     "kamikillerto.vscode-linthtml",
+    "stylelint.vscode-stylelint"
   ]
 }
