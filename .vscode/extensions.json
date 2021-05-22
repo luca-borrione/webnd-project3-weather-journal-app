@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "compulim.vscode-express",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "kamikillerto.vscode-linthtml",
