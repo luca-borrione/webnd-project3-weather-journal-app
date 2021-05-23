@@ -2,7 +2,7 @@
   "[css]": {
     "editor.formatOnSave": false
   },
-  "[javascript]": {
+  "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {

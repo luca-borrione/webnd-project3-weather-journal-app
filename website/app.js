@@ -4,7 +4,7 @@
 
 /* Function called by event listener */
 
-/* Function to GET Web API Data*/
+/* Function to GET Web API Data */
 
 /* Function to POST data */
 

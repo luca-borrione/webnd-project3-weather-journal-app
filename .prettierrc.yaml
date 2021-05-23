@@ -2,3 +2,11 @@ printWidth: 100
 singleQuote: true
 tabWidth: 2
 trailingComma: es5
+overrides:
+  - files: '*.html'
+    options:
+      printWidth: 120
+  - files: '*.json'
+    options:
+      jsonRecursiveSort: true
+      printWidth: 80
