@@ -1,15 +1,20 @@
 {
+  "[css]": {
+    "editor.formatOnSave": false
+  },
+  "[javascript1]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "css.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
   "editor.tabSize": 2,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "[css]": {
-    "editor.formatOnSave": false,
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": true,
-  },
+  "eslint.validate": ["javascript"]
 }
