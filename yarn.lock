@@ -504,6 +504,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@linthtml/linthtml-config-recommended@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@linthtml/linthtml-config-recommended/-/linthtml-config-recommended-0.1.0.tgz#a8cdfe19396fdbd5cc9aaab459f2dc95fa15c038"
+  integrity sha512-VA6kOYlMGv0qik0eeO+s5wS0zaWfibYFKoxOlDLntPKHQPXEPTxwZlt2x/lmQPnfqhXal3EYwr8D98Etl62Jgg==
+
 "@linthtml/linthtml@^0.7.2":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@linthtml/linthtml/-/linthtml-0.7.2.tgz#c66d03a1a14549068a882bd820e9aba2ea8349e7"
