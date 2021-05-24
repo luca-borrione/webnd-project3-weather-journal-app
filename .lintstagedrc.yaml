@@ -1,0 +1,10 @@
+'*.css':
+  - stylelint --fix
+'*.html':
+  - prettier --write
+  - linthtml
+'*.js':
+  - eslint --cache --fix
+  - jest --bail --findRelatedTests
+'*.json':
+  - prettier --write
