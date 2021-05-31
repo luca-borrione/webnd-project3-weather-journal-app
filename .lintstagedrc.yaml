@@ -4,7 +4,9 @@
   - prettier --write
   - linthtml
 '*.js':
-  - eslint --cache --fix
+  - eslint --fix
   - jest --bail --findRelatedTests
+package.json:
+  - prettier-package-json --write
 '*.json':
   - prettier --write
