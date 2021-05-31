@@ -24,6 +24,10 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "jest.autoRun": {
+    "onSave": "test-file",
+    "watch": false
+  },
   "less.validate": false,
   "scss.validate": false
 }

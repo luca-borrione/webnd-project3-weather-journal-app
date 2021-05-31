@@ -1,4 +1,5 @@
 *.code-workspace
+coverage/
 .DS_Store
 .history/
 node_modules

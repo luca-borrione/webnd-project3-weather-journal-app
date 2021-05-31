@@ -13,7 +13,7 @@
   "main": "server.js",
   "scripts": {
     "check-yarn-integrity": "yarn check --integrity",
-    "precommit": "(npm-run-all --parallel format-package-json check-yarn-integrity) & yarn lint-staged",
+    "dev": "nodemon server.js",
     "format": "npm-run-all --parallel format:*",
     "format-package-json": "prettier-package-json --write",
     "format:css": "$npm_execpath run lint:css --fix",
@@ -24,6 +24,7 @@
     "lint:css": "stylelint 'website/**/*.css'",
     "lint:html": "linthtml 'website/**/*.html'",
     "lint:js": "eslint . --ext .js",
+    "precommit": "(npm-run-all --parallel format-package-json check-yarn-integrity) & yarn lint-staged",
     "prepare": "husky install",
     "start": "node server.js",
     "test": "jest"
@@ -42,7 +43,9 @@
     "eslint-plugin-jest": "^24.3.6",
     "husky": ">=6",
     "jest": "^26.6.3",
+    "jest-express": "^1.12.0",
     "lint-staged": ">=10",
+    "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "prettier": "2.3.0",
     "prettier-package-json": "^2.6.0",
