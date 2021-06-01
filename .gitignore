@@ -1,6 +1,7 @@
 *.code-workspace
 coverage/
 .DS_Store
+.env
 .eslintcache
 .history/
 node_modules

@@ -94,7 +94,7 @@ describe('server', () => {
 
   it('should initialise the main project folder', async () => {
     expect(expressStaticSpy).toHaveBeenCalledTimes(1);
-    expect(expressStaticSpy).toHaveBeenCalledWith('website');
+    expect(expressStaticSpy).toHaveBeenCalledWith('public');
   });
 
   describe('Routes', () => {

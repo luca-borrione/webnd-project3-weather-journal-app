@@ -11,7 +11,7 @@ parserOptions:
 plugins:
   - jest
 rules:
-  implicit-arrow-linebreak: off
+  implicit-arrow-linebreak: 0
   operator-linebreak:
     - 2
     - after

@@ -16,12 +16,12 @@
     "dev": "nodemon server.js",
     "format": "npm-run-all --parallel format:*",
     "format:css": "$npm_execpath run lint:css --fix",
-    "format:html": "prettier --write 'website/**/*.html'",
+    "format:html": "prettier --write 'public/**/*.html'",
     "format:js": "$npm_execpath run lint:js --fix",
     "format:json": "prettier --write '*.json'",
     "lint": "npm-run-all --parallel lint:*",
-    "lint:css": "stylelint 'website/**/*.css'",
-    "lint:html": "linthtml 'website/**/*.html'",
+    "lint:css": "stylelint 'public/**/*.css'",
+    "lint:html": "linthtml 'public/**/*.html'",
     "lint:js": "eslint . --ext .js",
     "prepare": "husky install",
     "start": "node server.js",
@@ -30,7 +30,9 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@linthtml/linthtml": "^0.7.2",
@@ -42,6 +44,7 @@
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "jest-express": "^1.12.0",
+    "jquery": "^3.6.0",
     "lint-staged": "^11.0.0",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
