@@ -46,7 +46,7 @@ describe('server', () => {
     app.post(MOCK_POST_ROUTE, (req, res) => res.send(req.body));
   }
 
-  beforeEach(async () => {
+  beforeEach(() => {
     requireServer();
   });
 
