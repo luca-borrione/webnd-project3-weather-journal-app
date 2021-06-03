@@ -1,13 +1,9 @@
-const $ = require('jquery');
-
 describe('app', () => {
-  const MOCK_APP_ID = 'MOCK_APP_ID';
-  const MOCK_BASE_URL = 'MOCK_BASE_URL';
   const MOCK_ZIP = '12345';
 
-  const mockFetchJsonPromise = jest.fn().mockResolvedValue({});
+  const mockFetchJson = jest.fn().mockResolvedValue({ john: 'cena' });
 
-  // let fetchSpy;
+  let fetchSpy;
   let fetchInGlobal = true;
 
   beforeAll(() => {
@@ -15,22 +11,19 @@ describe('app', () => {
       fetchInGlobal = false;
       global.fetch = jest.fn();
     }
-
-    process.env.BASE_URL = MOCK_BASE_URL;
-    process.env.APP_ID = MOCK_APP_ID;
     require('./app'); // eslint-disable-line global-require
   });
 
   beforeEach(() => {
-    mockFetchJsonPromise.mockClear();
-    // fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
-    //   json: mockFetchJsonPromise,
-    // });
+    mockFetchJson.mockClear();
+    fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: mockFetchJson,
+    });
     window.document.body.innerHTML = `
-    <input type="text" id="zip" />
-    <button id="generate" type="submit">Generate</button>
-  `;
-    $('#zip').val(MOCK_ZIP);
+      <input type="text" id="zip" />
+      <button id="generate" type="submit">Generate</button>
+    `;
+    document.getElementById('zip').value = MOCK_ZIP;
     window.document.dispatchEvent(new Event('DOMContentLoaded', {
       bubbles: true,
       cancelable: true,
@@ -41,20 +34,23 @@ describe('app', () => {
     if (!fetchInGlobal) {
       delete global.fetch;
     }
-    delete process.env.BASE_URL;
-    delete process.env.APP_ID;
+    // delete process.env.BASE_URL;
+    // delete process.env.APP_ID;
   });
 
   describe('clicking on the "generate" button', () => {
     const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
 
     it('should fetch data from openweathermap and extract the json body content from the response', async () => {
-      $('#generate').click();
+      // $('#generate').click();
+      document.getElementById('generate').click();
       await flushPromises();
-      expect(true).toBe(true);
-      // expect(fetchSpy).toHaveBeenCalledTimes(1);
+      // expect(true).toBe(true);
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
       // expect(fetchSpy).toHaveBeenCalledWith(`${BASE_URL}zip=${MOCK_ZIP}&appid=${APP_ID}`);
-      // expect(mockFetchJsonPromise).toHaveBeenCalledTimes(1);
+      expect(fetchSpy).toHaveBeenCalledWith(`/api/search?zip=${MOCK_ZIP}`);
+      expect(mockFetchJson).toHaveBeenCalledTimes(1);
+      // TODO: complete when data will be saved and retrieved on the server
     });
   });
 });

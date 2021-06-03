@@ -1,3 +1,10 @@
+jest.mock('./api-routes', () => {
+  const { Router } = jest.requireActual('express');
+  const router = Router();
+  router.route('/mock-get-route').get((req, res) => { res.send({ john: 'cena' }); });
+  return router;
+});
+
 const request = require('supertest');
 const net = require('net');
 
@@ -25,7 +32,6 @@ describe('server', () => {
 
   let app;
   let server;
-  let serverRouteHandlers;
   let expressStaticSpy;
 
   function closeServer() {
@@ -35,20 +41,21 @@ describe('server', () => {
   }
 
   function requireServer() {
-    closeServer();
-    jest.resetModules();
     const express = require('express'); // eslint-disable-line global-require
-    expressStaticSpy = jest.spyOn(express, 'static');
+    const mockExpressStatic = express.static('__mocks__/public');
+    expressStaticSpy = jest.spyOn(express, 'static').mockReturnValue(mockExpressStatic);
     const serverModule = require('./server'); // eslint-disable-line global-require
     app = serverModule.app;
     server = serverModule.server;
-    serverRouteHandlers = serverModule.routeHandlers;
-    app.post(MOCK_POST_ROUTE, (req, res) => res.send(req.body));
   }
 
-  beforeEach(() => {
+  const prepareTest = () => {
+    jest.resetModules();
+    closeServer();
     requireServer();
-  });
+  };
+
+  beforeEach(prepareTest);
 
   afterEach(() => {
     closeServer();
@@ -61,6 +68,8 @@ describe('server', () => {
   });
 
   it('should parse json', async () => {
+    app.post(MOCK_POST_ROUTE, (req, res) => res.send(req.body));
+
     const response = await request(app)
       .post(MOCK_POST_ROUTE)
       .send({ name: 'john' });
@@ -70,6 +79,8 @@ describe('server', () => {
   });
 
   it('should parse urlencoded strings with the querystring library', async () => {
+    app.post(MOCK_POST_ROUTE, (req, res) => res.send(req.body));
+
     const response = await request(app)
       .post(MOCK_POST_ROUTE)
       .send('foo[bar][baz]=foobarbaz');
@@ -78,49 +89,47 @@ describe('server', () => {
     expect(response.body).toStrictEqual({ 'foo[bar][baz]': 'foobarbaz' });
   });
 
-  it('should use process.env.PORT if set', async () => {
-    process.env.PORT = 3333;
-    requireServer();
-    const result = await portUsed(3333);
-    expect(result).toBe(true);
-  });
-
-  it('should default to port 3000 if process.env.PORT if not set', async () => {
-    delete process.env.PORT;
-    requireServer();
-    const result = await portUsed(3000);
-    expect(result).toBe(true);
-  });
-
   it('should initialise the main project folder', async () => {
     expect(expressStaticSpy).toHaveBeenCalledTimes(1);
     expect(expressStaticSpy).toHaveBeenCalledWith('public');
   });
 
-  describe('Routes', () => {
-    const mockRequest = () => ({});
-    const mockResponse = () => {
-      const res = {};
-      res.status = jest.fn().mockReturnValue(res);
-      res.json = jest.fn().mockReturnValue(res);
-      res.send = jest.fn().mockReturnValue(res);
-      return res;
-    };
+  describe('ports', () => {
+    it('should use process.env.PORT if set', async () => {
+      process.env.PORT = 3333;
+      prepareTest();
 
-    it('GET an undefined route should return status 404', async () => {
+      const result = await portUsed(3333);
+      expect(result).toBe(true);
+    });
+
+    it('should default to port 3000 if process.env.PORT if not set', async () => {
+      delete process.env.PORT;
+      prepareTest();
+
+      const result = await portUsed(3000);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('routes', () => {
+    it('should return status 404 when an undefined route is requested', async () => {
       const response = await request(app).get('/undefined-mock-route');
       expect(response.status).toBe(404);
     });
 
-    it('GET default route /: should render index.html', async () => {
+    it('should return the content of the index.html in the main project folder when the the GET `/` route is requested', async () => {
       const response = await request(app).get('/');
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toBe('text/html; charset=UTF-8');
-      const req = mockRequest();
-      const res = mockResponse();
-      await serverRouteHandlers['/'](req, res);
-      expect(res.send).toHaveBeenCalledTimes(1);
-      expect(res.send).toHaveBeenCalledWith('index.html');
+      expect(response.text).toMatchSnapshot();
+    });
+
+    it('should have a route /api using the sub-routes returned by the api-routes module', async () => {
+      const response = await request(app).get('/api/mock-get-route');
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
+      expect(response.body).toStrictEqual({ john: 'cena' });
     });
   });
 });
