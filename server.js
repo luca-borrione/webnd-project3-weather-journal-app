@@ -16,9 +16,7 @@ app.use(express.static('public'));
 
 app.use('/api', apiRoutes);
 
-const server = app.listen(PORT, () => {
-  console.log(`server running on localhost ${PORT}`); // eslint-disable-line no-console
-});
+const server = app.listen(PORT, console.log(`server running on localhost ${PORT}`)); // eslint-disable-line no-console
 
 module.exports = {
   app,

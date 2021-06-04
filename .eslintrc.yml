@@ -12,9 +12,6 @@ plugins:
   - jest
 rules:
   implicit-arrow-linebreak: 0
-  operator-linebreak:
-    - 2
-    - after
   comma-dangle:
     - error
     - arrays: never
