@@ -1,0 +1,25 @@
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200,200i&display=swap");
+@import "layout.css";
+@import "weather-panel.css";
+@import "location-modal.css";
+@import "footer.css";
+
+/* mobile first */
+.weather-widget {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  background: var(--fallback-gradient-color);
+  background: linear-gradient(180deg, var(--gradient-colors));
+}
+
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width: 961px) {
+  .weather-widget {
+    width: 75%;
+    margin: auto;
+    right: 0;
+    left: 0;
+  }
+}

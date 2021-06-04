@@ -1,0 +1,16 @@
+:root {
+  --bg-color: rgba(34, 40, 49, 0.95);
+  --fallback-gradient-color: #13547a;
+
+  /* linear-gradient(-180deg, rgba(2, 0, 36, 0.6) 0%, rgba(9, 9, 121, 0.6) 35%, rgba(0, 212, 255, 0.6) 100%); */
+  --gradient-colors: #13547a 0%, #80d0c7;
+}
+
+body {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 100%;
+  font-weight: 200;
+  line-height: 1.5;
+  margin: 0;
+  background-color: var(--bg-color);
+}

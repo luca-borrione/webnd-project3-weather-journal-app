@@ -1,0 +1,89 @@
+.location-modal {
+  display: none;
+  z-index: 1;
+  color: #b7daf4;
+  font-size: 0.8em;
+
+  /* line-height: 1.5; */
+
+  /* padding: 7px 14px; */
+  pointer-events: none;
+}
+
+.location-modal.visible {
+  display: block;
+}
+
+.location-modal__mask {
+  background: #b7daf4;
+  border-radius: 3px;
+
+  /* height: 30px;
+  width: 100px; */
+  height: 0;
+  width: 0;
+  opacity: 0;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  transform: translate3d(0%, 0%, 0);
+  transition: top 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    right 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    height 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    width 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    background 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    border-radius 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    opacity 450ms cubic-bezier(0.55, 0, 0.1, 1);
+  border: 1px black solid;
+}
+
+.show-modal .location-modal__mask {
+  /* background: #020024;
+  background: linear-gradient(-180deg, rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.55) 100%); */
+  background: var(--fallback-gradient-color);
+  background: linear-gradient(180deg, var(--gradient-colors));
+  border-radius: 0;
+  display: block;
+  top: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0.5;
+
+  /* pointer-events: none; */
+  width: 100%;
+}
+
+.location-modal button {
+  background-color: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+  height: 20px;
+  padding: 0;
+  pointer-events: auto;
+  text-indent: -9999px;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  transform: rotate(45deg);
+  width: 20px;
+}
+
+.location-modal button::after,
+.location-modal button::before {
+  background-color: #fff;
+  display: block;
+  content: "";
+  height: 2px;
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 20px;
+}
+
+.location-modal button::before {
+  height: 20px;
+  width: 2px;
+  top: 0;
+  left: 9px;
+}

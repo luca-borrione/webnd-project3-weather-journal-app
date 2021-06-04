@@ -12,7 +12,7 @@ rules:
     - double
   id-class-style:
     - true
-    - camel
+    - bem
   indent-width:
     - true
     - 2
