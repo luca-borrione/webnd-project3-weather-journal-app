@@ -1,16 +1,44 @@
 :root {
   --bg-color: rgba(34, 40, 49, 0.95);
-  --fallback-gradient-color: #13547a;
-
-  /* linear-gradient(-180deg, rgba(2, 0, 36, 0.6) 0%, rgba(9, 9, 121, 0.6) 35%, rgba(0, 212, 255, 0.6) 100%); */
+  --ui-primary-color: #13547a;
+  --ui-secondary-color: rgba(255, 255, 255, 0.75);
+  --fallback-gradient-color: #3e8498;
   --gradient-colors: #13547a 0%, #80d0c7;
 }
 
 body {
+  margin: 0;
+  padding: 0;
   font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size: 100%;
   font-weight: 200;
   line-height: 1.5;
-  margin: 0;
   background-color: var(--bg-color);
+}
+
+input {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 2em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

@@ -5,7 +5,7 @@ let $locationModal;
 
 const storeElements = () => {
   $changeLocationButton = document.getElementById('change-location-button');
-  $closeModalButton = document.getElementById('close-modal');
+  $closeModalButton = document.querySelector('.close-modal');
   $widget = document.querySelector('.weather-widget');
   $locationModal = document.querySelector('.location-modal');
 };

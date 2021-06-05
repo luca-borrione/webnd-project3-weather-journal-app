@@ -1,13 +1,30 @@
 .location-modal {
+  position: absolute;
   display: none;
-  z-index: 1;
-  color: #b7daf4;
-  font-size: 0.8em;
+  height: 0;
+  width: 0;
+  opacity: 0;
+  top: 10%;
+  right: 10%;
+  transform: translate3d(0%, 0%, 0);
+  transition: top 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    right 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    height 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    width 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    background 450ms cubic-bezier(0.55, 0, 0.1, 1),
+    /* border-radius 450ms cubic-bezier(0.55, 0, 0.1, 1), */
+    opacity 450ms cubic-bezier(0.55, 0, 0.1, 1);
+}
 
-  /* line-height: 1.5; */
-
-  /* padding: 7px 14px; */
-  pointer-events: none;
+.show-modal .location-modal {
+  display: block;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  border-radius: 30px;
+  border: 1px var(--ui-secondary-color) solid;
 }
 
 .location-modal.visible {
@@ -15,52 +32,26 @@
 }
 
 .location-modal__mask {
-  background: #b7daf4;
-  border-radius: 3px;
-
-  /* height: 30px;
-  width: 100px; */
-  height: 0;
-  width: 0;
-  opacity: 0;
   position: absolute;
-  top: 5%;
-  right: 5%;
   transform: translate3d(0%, 0%, 0);
-  transition: top 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    right 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    height 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    width 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    background 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    border-radius 450ms cubic-bezier(0.55, 0, 0.1, 1),
-    opacity 450ms cubic-bezier(0.55, 0, 0.1, 1);
-  border: 1px black solid;
-}
-
-.show-modal .location-modal__mask {
-  /* background: #020024;
-  background: linear-gradient(-180deg, rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.55) 100%); */
   background: var(--fallback-gradient-color);
   background: linear-gradient(180deg, var(--gradient-colors));
-  border-radius: 0;
+  border-radius: 30px;
   display: block;
   top: 0;
   right: 0;
   height: 100%;
-  opacity: 0.5;
-
-  /* pointer-events: none; */
   width: 100%;
+  opacity: 0.25;
 }
 
-.location-modal button {
+.location-modal .close-modal {
   background-color: transparent;
   border: 0;
   color: rgba(255, 255, 255, 0);
   cursor: pointer;
   height: 20px;
   padding: 0;
-  pointer-events: auto;
   text-indent: -9999px;
   position: absolute;
   top: 5%;
@@ -69,8 +60,8 @@
   width: 20px;
 }
 
-.location-modal button::after,
-.location-modal button::before {
+.location-modal .close-modal::after,
+.location-modal .close-modal::before {
   background-color: #fff;
   display: block;
   content: "";
@@ -81,9 +72,70 @@
   width: 20px;
 }
 
-.location-modal button::before {
+.location-modal .close-modal::before {
   height: 20px;
   width: 2px;
   top: 0;
   left: 9px;
+}
+
+#change-location-form {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+#change-location-form label {
+  color: #fff;
+  font-size: 0.8em;
+  opacity: 0.8;
+  padding-bottom: 5px;
+  text-align: left;
+  width: 220px;
+}
+
+#change-location-form input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid var(--ui-secondary-color);
+  border-radius: 3px;
+  color: #fff;
+
+  /* font-weight: 200;
+  font-size: 2em; */
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  transition: background-color 150ms ease-in;
+  width: 200px;
+}
+
+#change-location-form input:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#change-location-form button {
+  background: var(--ui-primary-color);
+  border: 0;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  line-height: 1.5;
+  padding: 20px 20px;
+
+  /* transition: background 250ms ease-out, color 250ms ease-out; */
+  width: 235px;
+}
+
+#change-location-form button:hover,
+#change-location-form button:focus {
+  background: #b7daf4;
+  color: #100f26;
 }
