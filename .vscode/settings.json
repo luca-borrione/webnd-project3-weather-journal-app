@@ -24,6 +24,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "jest.jestCommandLine": "node_modules/.bin/jest --config jest.config.js",
   "less.validate": false,
   "scss.validate": false
 }
