@@ -10,33 +10,33 @@
   <body>
     <main class="weather-widget">
       <section class="weather-panel">
-        <article class="weather-now">
+        <article class="weather-card">
           <ul>
-            <li class="weather-now-day"></li>
-            <li class="weather-now-date"></li>
-            <li class="weather-now-location"></li>
+            <li class="weather-card__weekday"></li>
+            <li class="weather-card__date"></li>
+            <li class="weather-card__location"></li>
           </ul>
 
-          <button class="weather-now-new-location" id="change-location-button">Change Location</button>
+          <button class="weather-card__change-location">Change Location</button>
 
           <ul>
-            <li class="weather-now-icon"><span class="weather-description"></span></li>
-            <li class="weather-now-tempurature"></li>
+            <li class="weather-card__icon"><span class="weather-card__description"></span></li>
+            <li class="weather-card__temperature"></li>
           </ul>
 
-          <dl class="weather-now-details">
+          <dl class="weather-card__details">
             <dt>Feels Like</dt>
-            <dd class="weather-now-precipitation"></dd>
+            <dd class="weather-card__feels-like"></dd>
           </dl>
 
-          <dl class="weather-now-details">
+          <dl class="weather-card__details">
             <dt>Humidity</dt>
-            <dd class="weather-now-humidity"></dd>
+            <dd class="weather-card__humidity"></dd>
           </dl>
 
-          <dl class="weather-now-details">
-            <dt>Wind</dt>
-            <dd class="weather-now-wind"></dd>
+          <dl class="weather-card__details">
+            <dt>Wind Speed</dt>
+            <dd class="weather-card__wind-speed"></dd>
           </dl>
         </article>
         <footer>Luca</footer>
@@ -44,16 +44,15 @@
 
       <aside class="location-modal">
         <div class="location-modal__mask"></div>
-        <form id="change-location-form">
-          <label for="zipcode">Enter your postal code</label>
-          <input id="zipcode" type="number" name="zip" required />
-          <button type="submit" id="change-location-form-submit">Update Location</button>
+        <form class="location-modal__form">
+          <label for="zip">Enter your zip code</label>
+          <input id="zip" type="number" name="zip" required />
+          <button type="submit" id="generate">Update Location</button>
         </form>
         <button class="close-modal">Close</button>
       </aside>
     </main>
 
-    <!-- <script src="app.js"></script> -->
-    <script src="js/weather-widget.js" type="module"></script>
+    <script src="js/weather-widget-view.js" type="module"></script>
   </body>
 </html>

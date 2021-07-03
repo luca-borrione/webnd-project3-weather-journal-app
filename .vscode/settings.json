@@ -24,10 +24,11 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "jest.autoRun": {
+  "jest.autoRun1": {
     "onSave": "test-file",
     "watch": false
   },
+  "jest.jestCommandLine1": "yarn jest",
   "less.validate": false,
   "scss.validate": false
 }

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api-routes should match the routes stored in the snapshot 1`] = `
+Array [
+  Array [
+    "/add",
+  ],
+  Array [
+    "/all",
+  ],
+  Array [
+    "/search",
+  ],
+]
+`;

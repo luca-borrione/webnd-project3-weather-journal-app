@@ -13,28 +13,28 @@
   transition: filter 150ms ease-out 200ms;
 }
 
-.weather-now {
+.weather-card {
   color: #fff;
   margin-bottom: 8%;
   padding: 5%;
   position: relative;
 }
 
-.weather-now-day {
+.weather-card__weekday {
   font-size: 2em;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.weather-now-date,
-.weather-now-location {
+.weather-card__date,
+.weather-card__location {
   font-size: 0.9em;
   font-style: italic;
   line-height: 1.2;
   opacity: 0.5;
 }
 
-.weather-now-new-location {
+.weather-card__change-location {
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
@@ -47,22 +47,23 @@
   position: absolute;
   top: 10%;
   right: 5%;
-  transition: background 350ms ease-out, color 350ms ease-out, opacity 350ms ease-out 400ms;
+
+  /* transition: background 350ms ease-out, color 350ms ease-out, opacity 350ms ease-out 400ms; */
 }
 
-.weather-now-new-location:hover,
-.weather-now-new-location1:focus {
+.weather-card__change-location:hover,
+.weather-card__change-location:focus {
   background: #b7daf4;
   color: #100f26;
 }
 
-.weather-now-tempurature {
+.weather-card__temperature {
   font-size: 8em;
   font-weight: bold;
   margin-top: 70px;
 }
 
-.weather-now-details {
+.weather-card__details {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-wrap: column;
@@ -72,11 +73,11 @@
   width: 100%;
 }
 
-.weather-now-details:last-of-type {
+.weather-card__details:last-of-type {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.weather-now-details dt {
+.weather-card__details dt {
   text-transform: uppercase;
   font-size: 0.8em;
   font-weight: bold;
@@ -84,6 +85,6 @@
   padding-top: 0.45%;
 }
 
-.weather-now-details dd {
+.weather-card__details dd {
   margin-left: auto;
 }

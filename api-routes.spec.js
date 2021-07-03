@@ -32,19 +32,7 @@ describe('api-routes', () => {
 
   it('should match the routes stored in the snapshot', () => {
     prepareRouteSpies();
-    expect(routeSpy.mock.calls).toMatchInlineSnapshot(`
-      Array [
-        Array [
-          "/add",
-        ],
-        Array [
-          "/all",
-        ],
-        Array [
-          "/search",
-        ],
-      ]
-    `);
+    expect(routeSpy.mock.calls).toMatchSnapshot();
   });
 
   it('should correctly set the route for /add', () => {

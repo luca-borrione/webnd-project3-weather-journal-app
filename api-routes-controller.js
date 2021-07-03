@@ -1,10 +1,10 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
 
-const { BASE_URL = 'http://api.openweathermap.org/data/2.5/weather' } = process.env;
+const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
 const { APP_ID } = process.env;
 
-const projectData = [];
+let projectData = [];
 
 module.exports = {
   getAll: (req, res) => {
@@ -12,8 +12,9 @@ module.exports = {
   },
   getSearch: async (req, res, next) => {
     try {
-      const searchString = `q=${req.query.city}`;
-      const response = await fetch(`${BASE_URL}?appid=${APP_ID}&${searchString}`);
+      const { lang, zip } = req.query;
+      const params = { lang, zip };
+      const response = await fetch(`${BASE_URL}?appid=${APP_ID}&${new URLSearchParams(params).toString()}`);
       const results = await response.json();
       if (response.status !== 200) {
         next(results.message);
@@ -36,7 +37,12 @@ module.exports = {
   },
   postAdd: (req, res) => {
     const entry = req.body;
-    projectData.push(entry);
-    res.json({ success: true });
+    if (entry.id) {
+      projectData = projectData.filter(({ id }) => id !== entry.id);
+      projectData.push(entry);
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
   },
 };
