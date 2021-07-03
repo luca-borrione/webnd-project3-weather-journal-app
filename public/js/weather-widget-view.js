@@ -1,5 +1,5 @@
 import { getWeatherData, getAllWeatherData, setWeatherData } from './weather-widget-controller.js';
-import { getNavigatorLanguage } from './utils.js';
+import { getNavigatorLanguage, handleError } from './utils/index.js';
 
 let $changeLocationButton;
 let $closeModalButton;
@@ -77,18 +77,15 @@ const locationModalTransitionEnd = (event) => {
   }
 };
 
-const locationModalFormSubmit = async (event) => {
+const locationModalFormSubmit = (event) => {
   event.preventDefault();
   event.stopPropagation();
-  try {
-    const weatherData = await getWeatherData({ zip: $zipInput.value });
-    await setWeatherData(weatherData);
-    const allWeatherData = await getAllWeatherData();
-    await updateView(allWeatherData);
-    toggleModal();
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-  }
+  return getWeatherData({ zip: $zipInput.value })
+    .then(setWeatherData)
+    .then(getAllWeatherData)
+    .then(updateView)
+    .then(toggleModal)
+    .catch(handleError);
 };
 
 const initEventListeners = () => {

@@ -56,49 +56,30 @@ describe('api-routes-controller', () => {
   });
 
   describe('postAdd', () => {
-    it('should store a valid entry', () => {
+    it('should always respond with a success flag', () => {
       const mockResponse = postEntry(entry1);
       expect(mockResponse.json).toHaveBeenCalledTimes(1);
       expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
     });
 
-    it('should not store an invalid entry', () => {
-      const mockResponse = postEntry({});
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: false });
-    });
-
     it('should store all the entries', () => {
-      let mockResponse = postEntry(entry1);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
-
-      mockResponse = postEntry(entry2);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
+      postEntry(entry1);
+      postEntry(entry2);
 
       const mockRequest = {};
-      mockResponse = { send: jest.fn() };
+      const mockResponse = { send: jest.fn() };
       controller.getAll(mockRequest, mockResponse);
       expect(mockResponse.send).toHaveBeenCalledTimes(1);
       expect(mockResponse.send).toHaveBeenCalledWith([entry1, entry2]);
     });
 
     it('should remove the previously stored entry if one with the same id is sent again', () => {
-      let mockResponse = postEntry(entry1);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
-
-      mockResponse = postEntry(entry2);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
-
-      mockResponse = postEntry(entry1);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-      expect(mockResponse.json).toHaveBeenCalledWith({ success: true });
+      postEntry(entry1);
+      postEntry(entry2);
+      postEntry(entry1);
 
       const mockRequest = {};
-      mockResponse = { send: jest.fn() };
+      const mockResponse = { send: jest.fn() };
       controller.getAll(mockRequest, mockResponse);
       expect(mockResponse.send).toHaveBeenCalledTimes(1);
       expect(mockResponse.send).toHaveBeenCalledWith([entry2, entry1]);

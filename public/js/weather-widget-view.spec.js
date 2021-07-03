@@ -123,7 +123,6 @@ describe('weather-widget-view', () => {
 
   afterEach(() => {
     jest.runAllTimers();
-    jest.clearAllMocks();
   });
 
   afterAll(() => {
@@ -199,7 +198,7 @@ describe('weather-widget-view', () => {
       $locationModalForm.submit();
       await flushPromises();
       expect(getAllWeatherData).toBeCalledTimes(1);
-      expect(getAllWeatherData).toBeCalledWith();
+      expect(getAllWeatherData).toBeCalledWith(undefined);
     });
 
     it('should update the weather card with the last data', async () => {
@@ -225,7 +224,7 @@ describe('weather-widget-view', () => {
     });
 
     it('should handle an error nicely', async () => {
-      const expectedError = new Error('expected error');
+      const expectedError = new Error('mock-expected-error');
       setWeatherData.mockRejectedValueOnce(expectedError);
       const errorSpy = jest.spyOn(console, 'error').mockImplementation();
       $locationModalForm.submit();

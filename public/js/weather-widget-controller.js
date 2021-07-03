@@ -1,15 +1,20 @@
-import { getData, postData, getNavigatorLanguage } from './utils.js';
+import {
+  getData,
+  postData,
+  getNavigatorLanguage,
+  handleErrorAndReject
+} from './utils/index.js';
 
-const LOCALE = getNavigatorLanguage();
+const LANG = getNavigatorLanguage().split('-').shift();
 
 const transformWeatherData = ({
   dt: epoch,
-  main: { feels_like: feelsLike, humidity, temp } = {},
+  main: { feels_like: feelsLike, humidity, temp },
   name,
-  sys: { country, id } = {},
+  sys: { country, id },
   timezone,
-  weather: [{ description, icon } = {}] = [],
-  wind: { speed } = {},
+  weather: [{ description, icon }],
+  wind: { speed },
 }) => ({
   country,
   description,
@@ -23,35 +28,23 @@ const transformWeatherData = ({
   windSpeed: speed,
 });
 
-export const getWeatherData = async ({ zip }) => {
-  try {
-    const lang = LOCALE.split('-').shift();
-    const response = await getData('/api/search', { lang, zip });
+const parseWeatherDataResponse = (response) =>
+  new Promise((resolve, reject) => {
     if (!response.success) {
-      throw new Error(response.message);
+      reject(new Error(response.message));
     }
-    return transformWeatherData(response.results);
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-    return null;
-  }
-};
+    resolve(transformWeatherData(response.results));
+  });
 
-export const setWeatherData = async (data) => {
-  try {
-    await postData('/api/add', data);
-    return true;
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-    return false;
-  }
-};
+export const getWeatherData = ({ zip }) =>
+  getData('/api/search', { lang: LANG, zip })
+    .then(parseWeatherDataResponse)
+    .catch(handleErrorAndReject);
 
-export const getAllWeatherData = async () => {
-  try {
-    return getData('/api/all');
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-    return null;
-  }
-};
+export const setWeatherData = (data) =>
+  postData('/api/add', data)
+    .catch(handleErrorAndReject);
+
+export const getAllWeatherData = () =>
+  getData('/api/all')
+    .catch(handleErrorAndReject);

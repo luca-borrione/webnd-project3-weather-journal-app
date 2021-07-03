@@ -7,7 +7,7 @@ const { APP_ID } = process.env;
 let projectData = [];
 
 module.exports = {
-  getAll: (req, res) => {
+  getAll: (_, res) => {
     res.send(projectData);
   },
   getSearch: async (req, res, next) => {
@@ -37,12 +37,8 @@ module.exports = {
   },
   postAdd: (req, res) => {
     const entry = req.body;
-    if (entry.id) {
-      projectData = projectData.filter(({ id }) => id !== entry.id);
-      projectData.push(entry);
-      res.json({ success: true });
-    } else {
-      res.json({ success: false });
-    }
+    projectData = projectData.filter(({ id }) => id !== entry.id);
+    projectData.push(entry);
+    res.json({ success: true });
   },
 };
