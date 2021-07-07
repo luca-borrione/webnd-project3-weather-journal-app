@@ -1,33 +1,33 @@
 import { getWeatherData, getAllWeatherData, setWeatherData } from './weather-widget-controller.js';
 import { getNavigatorLanguage, handleError } from './utils/index.js';
+import { selectors } from './utils/selectors.js';
 
-let $changeLocationButton;
-let $closeModalButton;
 let $widget;
-let $locationModal;
-let $locationModalForm;
-let $zipInput;
 
 const $card = {};
+const $modal = {};
 
 const LOCALE = getNavigatorLanguage();
 
 const storeElements = () => {
-  $changeLocationButton = document.querySelector('.weather-card__change-location');
-  $closeModalButton = document.querySelector('.close-modal');
-  $widget = document.querySelector('.weather-widget');
-  $locationModal = document.querySelector('.location-modal');
-  $locationModalForm = document.querySelector('.location-modal__form');
-  $zipInput = document.getElementById('zip');
+  $widget = document.querySelector(`.${selectors.widget}`);
 
-  $card.weekday = document.querySelector('.weather-card__weekday');
-  $card.date = document.querySelector('.weather-card__date');
-  $card.location = document.querySelector('.weather-card__location');
-  $card.description = document.querySelector('.weather-card__description');
-  $card.temperature = document.querySelector('.weather-card__temperature');
-  $card.feelsLike = document.querySelector('.weather-card__feels-like');
-  $card.humidity = document.querySelector('.weather-card__humidity');
-  $card.windSpeed = document.querySelector('.weather-card__wind-speed');
+  $card.changeLocationButton = document.querySelector(`.${selectors.card.changeLocationButton}`);
+  $card.date = document.querySelector(`.${selectors.card.date}`);
+  $card.description = document.querySelector(`.${selectors.card.description}`);
+  $card.feelings = document.querySelector(`.${selectors.card.feelings}`);
+  $card.feelsLike = document.querySelector(`.${selectors.card.feelsLike}`);
+  $card.humidity = document.querySelector(`.${selectors.card.humidity}`);
+  $card.location = document.querySelector(`.${selectors.card.location}`);
+  $card.temperature = document.querySelector(`.${selectors.card.temperature}`);
+  $card.weekday = document.querySelector(`.${selectors.card.weekday}`);
+  $card.windSpeed = document.querySelector(`.${selectors.card.windSpeed}`);
+
+  $modal.closeButton = document.querySelector(`.${selectors.modal.closeButton}`);
+  $modal.feelingsField = document.getElementById(selectors.modal.feelingsField);
+  $modal.container = document.querySelector(`.${selectors.modal.container}`);
+  $modal.form = document.querySelector(`.${selectors.modal.form}`);
+  $modal.zipField = document.getElementById(selectors.modal.zipField);
 };
 
 const updateWeatherCard = (weatherData) => {
@@ -51,6 +51,7 @@ const updateWeatherCard = (weatherData) => {
   $card.feelsLike.innerHTML = weatherData.feelsLike;
   $card.humidity.innerHTML = weatherData.humidity;
   $card.windSpeed.innerHTML = weatherData.windSpeed;
+  $card.feelings.innerHTML = weatherData.feelings;
 };
 
 const updateView = (allWeatherData) => {
@@ -59,7 +60,7 @@ const updateView = (allWeatherData) => {
 };
 
 const toggleModal = () => {
-  $locationModal.classList.add('visible');
+  $modal.container.classList.add('visible');
   setTimeout(() => $widget.classList.toggle('show-modal'), 0);
 };
 
@@ -72,15 +73,21 @@ const toggleModalClick = (event) => {
 const locationModalTransitionEnd = (event) => {
   if (event.propertyName === 'opacity') {
     if (!$widget.classList.contains('show-modal')) {
-      $locationModal.classList.remove('visible');
+      $modal.container.classList.remove('visible');
     }
   }
 };
 
+const addFeelings = (weatherData) => ({
+  ...weatherData,
+  feelings: $modal.feelingsField.value,
+});
+
 const locationModalFormSubmit = (event) => {
   event.preventDefault();
   event.stopPropagation();
-  return getWeatherData({ zip: $zipInput.value })
+  return getWeatherData({ zip: $modal.zipField.value })
+    .then(addFeelings)
     .then(setWeatherData)
     .then(getAllWeatherData)
     .then(updateView)
@@ -89,12 +96,12 @@ const locationModalFormSubmit = (event) => {
 };
 
 const initEventListeners = () => {
-  $changeLocationButton.addEventListener('touchend', toggleModalClick);
-  $changeLocationButton.addEventListener('click', toggleModalClick);
-  $closeModalButton.addEventListener('touchend', toggleModalClick);
-  $closeModalButton.addEventListener('click', toggleModalClick);
-  $locationModalForm.addEventListener('submit', locationModalFormSubmit);
-  $locationModal.addEventListener('transitionend', locationModalTransitionEnd);
+  $card.changeLocationButton.addEventListener('touchend', toggleModalClick);
+  $card.changeLocationButton.addEventListener('click', toggleModalClick);
+  $modal.closeButton.addEventListener('touchend', toggleModalClick);
+  $modal.closeButton.addEventListener('click', toggleModalClick);
+  $modal.form.addEventListener('submit', locationModalFormSubmit);
+  $modal.container.addEventListener('transitionend', locationModalTransitionEnd);
 };
 
 const init = () => {

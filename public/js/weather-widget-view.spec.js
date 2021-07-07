@@ -1,13 +1,15 @@
 import { getWeatherData, getAllWeatherData, setWeatherData } from './weather-widget-controller';
 import './weather-widget-view';
+import { selectors } from './utils/selectors';
 
 jest.mock('./weather-widget-controller', () => ({
-  getWeatherData: jest.fn().mockResolvedValue('mock-wheather-data'),
+  getWeatherData: jest.fn().mockResolvedValue({ mock: 'wheather-data' }),
   setWeatherData: jest.fn().mockResolvedValue(),
   getAllWeatherData: jest.fn().mockResolvedValue([
     {
       country: 'US',
       description: 'overcast clouds',
+      feelings: 'quite sad',
       feelsLike: 298.66,
       humidity: 92,
       icon: '04d',
@@ -20,6 +22,7 @@ jest.mock('./weather-widget-controller', () => ({
     {
       country: 'US',
       description: 'clear sky',
+      feelings: 'very happy',
       feelsLike: 302.25,
       humidity: 55,
       icon: '01d',
@@ -32,44 +35,21 @@ jest.mock('./weather-widget-controller', () => ({
   ]),
 }));
 
-const selectors = {
-  card: {
-    date: 'weather-card__date',
-    description: 'weather-card__description',
-    feelsLike: 'weather-card__feels-like',
-    humidity: 'weather-card__humidity',
-    location: 'weather-card__location',
-    temperature: 'weather-card__temperature',
-    weekday: 'weather-card__weekday',
-    windSpeed: 'weather-card__wind-speed',
-  },
-  changeLocationButton: 'weather-card__change-location',
-  closeModalButton: 'close-modal',
-  locationModal: 'location-modal',
-  locationModalForm: 'location-modal__form',
-  zip: 'zip',
-  widget: 'weather-widget',
-};
-
 describe('weather-widget-view', () => {
-  let $changeLocationButton;
-  let $closeModalButton;
-  let $locationModal;
-  let $locationModalForm;
   let $widget;
-  let $zipInput;
+  const $modal = {};
   const $card = {};
 
   const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
 
   const showModal = async () => {
-    $changeLocationButton.click();
+    $card.changeLocationButton.click();
     await flushPromises();
     jest.runAllTimers();
   };
 
   const hideModal = async () => {
-    $closeModalButton.click();
+    $modal.closeButton.click();
     await flushPromises();
     jest.runAllTimers();
   };
@@ -81,20 +61,22 @@ describe('weather-widget-view', () => {
   beforeEach(() => {
     window.document.body.innerHTML = `
       <div class="${selectors.widget}">
-        <div class="${selectors.locationModal}">
-          <button class="${selectors.closeModalButton}"></button>
-          <form class="${selectors.locationModalForm}">
-            <input type="number" id="${selectors.zip}" />
+        <div class="${selectors.modal.container}">
+          <button class="${selectors.modal.closeButton}"></button>
+          <form class="${selectors.modal.form}">
+            <input type="number" id="${selectors.modal.zipField}" />
+            <textarea type="number" id="${selectors.modal.feelingsField}"></textarea>
           </form>
         </div>
-        <button class="${selectors.changeLocationButton}"></button>
-        <div class="${selectors.card.weekday}"></div>
+        <button class="${selectors.card.changeLocationButton}"></button>
         <div class="${selectors.card.date}"></div>
-        <div class="${selectors.card.location}"></div>
         <div class="${selectors.card.description}"></div>
-        <div class="${selectors.card.temperature}"></div>
+        <div class="${selectors.card.feelings}"></div>
         <div class="${selectors.card.feelsLike}"></div>
         <div class="${selectors.card.humidity}"></div>
+        <div class="${selectors.card.location}"></div>
+        <div class="${selectors.card.temperature}"></div>
+        <div class="${selectors.card.weekday}"></div>
         <div class="${selectors.card.windSpeed}"></div>
       </div>
     `;
@@ -104,21 +86,24 @@ describe('weather-widget-view', () => {
       cancelable: true,
     }));
 
-    $changeLocationButton = document.querySelector(`.${selectors.changeLocationButton}`);
-    $closeModalButton = document.querySelector(`.${selectors.closeModalButton}`);
-    $locationModal = document.querySelector(`.${selectors.locationModal}`);
-    $locationModalForm = document.querySelector(`.${selectors.locationModalForm}`);
     $widget = document.querySelector(`.${selectors.widget}`);
-    $zipInput = document.getElementById(selectors.zip);
 
-    $card.weekday = document.querySelector(`.${selectors.card.weekday}`);
+    $card.changeLocationButton = document.querySelector(`.${selectors.card.changeLocationButton}`);
     $card.date = document.querySelector(`.${selectors.card.date}`);
-    $card.location = document.querySelector(`.${selectors.card.location}`);
     $card.description = document.querySelector(`.${selectors.card.description}`);
-    $card.temperature = document.querySelector(`.${selectors.card.temperature}`);
+    $card.feelings = document.querySelector(`.${selectors.card.feelings}`);
     $card.feelsLike = document.querySelector(`.${selectors.card.feelsLike}`);
     $card.humidity = document.querySelector(`.${selectors.card.humidity}`);
+    $card.location = document.querySelector(`.${selectors.card.location}`);
+    $card.temperature = document.querySelector(`.${selectors.card.temperature}`);
+    $card.weekday = document.querySelector(`.${selectors.card.weekday}`);
     $card.windSpeed = document.querySelector(`.${selectors.card.windSpeed}`);
+
+    $modal.closeButton = document.querySelector(`.${selectors.modal.closeButton}`);
+    $modal.container = document.querySelector(`.${selectors.modal.container}`);
+    $modal.feelingsField = document.getElementById(selectors.modal.feelingsField);
+    $modal.form = document.querySelector(`.${selectors.modal.form}`);
+    $modal.zipField = document.getElementById(selectors.modal.zipField);
   });
 
   afterEach(() => {
@@ -151,58 +136,62 @@ describe('weather-widget-view', () => {
       };
 
       it('should keep the location modal visible at the end of the opacity transition when opening the modal', async () => {
-        expect($locationModal.classList.contains('visible')).toBe(false);
+        expect($modal.container.classList.contains('visible')).toBe(false);
         await showModal();
-        expect($locationModal.classList.contains('visible')).toBe(true);
-        triggerTransitionEnd($locationModal, { propertyName: 'opacity' });
-        expect($locationModal.classList.contains('visible')).toBe(true);
+        expect($modal.container.classList.contains('visible')).toBe(true);
+        triggerTransitionEnd($modal.container, { propertyName: 'opacity' });
+        expect($modal.container.classList.contains('visible')).toBe(true);
       });
 
       it('should remove the visibility from the location modal at the end of the opacity transition when closing the modal', async () => {
         await showModal();
-        expect($locationModal.classList.contains('visible')).toBe(true);
+        expect($modal.container.classList.contains('visible')).toBe(true);
         await hideModal();
-        expect($locationModal.classList.contains('visible')).toBe(true);
-        triggerTransitionEnd($locationModal, { propertyName: 'opacity' });
-        expect($locationModal.classList.contains('visible')).toBe(false);
+        expect($modal.container.classList.contains('visible')).toBe(true);
+        triggerTransitionEnd($modal.container, { propertyName: 'opacity' });
+        expect($modal.container.classList.contains('visible')).toBe(false);
       });
 
       it('should not remove the visibility from the location modal at the end of transition other than opacity when closing the modal', async () => {
         await showModal();
-        expect($locationModal.classList.contains('visible')).toBe(true);
+        expect($modal.container.classList.contains('visible')).toBe(true);
         await hideModal();
-        expect($locationModal.classList.contains('visible')).toBe(true);
-        triggerTransitionEnd($locationModal, { propertyName: 'not-opacity' });
-        expect($locationModal.classList.contains('visible')).toBe(true);
+        expect($modal.container.classList.contains('visible')).toBe(true);
+        triggerTransitionEnd($modal.container, { propertyName: 'not-opacity' });
+        expect($modal.container.classList.contains('visible')).toBe(true);
       });
     });
   });
 
   describe('submitting a new location', () => {
     it('should get the weather data for the desired zipcode', async () => {
-      $zipInput.value = 90210;
-      $locationModalForm.submit();
+      $modal.zipField.value = 90210;
+      $modal.form.submit();
       await flushPromises();
       expect(getWeatherData).toBeCalledTimes(1);
       expect(getWeatherData).toBeCalledWith({ zip: '90210' });
     });
 
     it('should save the weather data on the backend', async () => {
-      $locationModalForm.submit();
+      $modal.feelingsField.value = 'mock-feelings';
+      $modal.form.submit();
       await flushPromises();
       expect(setWeatherData).toBeCalledTimes(1);
-      expect(setWeatherData).toBeCalledWith('mock-wheather-data');
+      expect(setWeatherData).toBeCalledWith({
+        mock: 'wheather-data',
+        feelings: 'mock-feelings',
+      });
     });
 
     it('should retrieve all the saved weather data from the backend', async () => {
-      $locationModalForm.submit();
+      $modal.form.submit();
       await flushPromises();
       expect(getAllWeatherData).toBeCalledTimes(1);
       expect(getAllWeatherData).toBeCalledWith(undefined);
     });
 
     it('should update the weather card with the last data', async () => {
-      $locationModalForm.submit();
+      $modal.form.submit();
       await flushPromises();
       expect($card.weekday.innerHTML).toBe('Thursday');
       expect($card.date.innerHTML).toBe('July 1, 2021 - 04:08 PM');
@@ -212,12 +201,13 @@ describe('weather-widget-view', () => {
       expect($card.feelsLike.innerHTML).toBe('302.25');
       expect($card.humidity.innerHTML).toBe('55');
       expect($card.windSpeed.innerHTML).toBe('0.89');
+      expect($card.feelings.innerHTML).toBe('very happy');
     });
 
     it('should hide the location modal', async () => {
       await showModal();
       expect($widget.classList.contains('show-modal')).toBe(true);
-      $locationModalForm.submit();
+      $modal.form.submit();
       await flushPromises();
       jest.runAllTimers();
       expect($widget.classList.contains('show-modal')).toBe(false);
@@ -227,7 +217,7 @@ describe('weather-widget-view', () => {
       const expectedError = new Error('mock-expected-error');
       setWeatherData.mockRejectedValueOnce(expectedError);
       const errorSpy = jest.spyOn(console, 'error').mockImplementation();
-      $locationModalForm.submit();
+      $modal.form.submit();
       await flushPromises();
       expect(errorSpy).toBeCalledTimes(1);
       expect(errorSpy).toBeCalledWith(expectedError);

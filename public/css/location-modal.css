@@ -2,7 +2,7 @@
   --location-modal-transition: 500ms cubic-bezier(0.55, 0, 0.1, 1);
 }
 
-.location-modal {
+.location-modal__container {
   position: absolute;
   display: none;
   margin: auto;
@@ -21,13 +21,13 @@
     opacity var(--location-modal-transition);
 }
 
-.show-modal .location-modal {
+.show-modal .location-modal__container {
   height: 95%;
   width: 95%;
   opacity: 1;
 }
 
-.location-modal.visible {
+.location-modal__container.visible {
   display: block;
 }
 
@@ -45,7 +45,7 @@
   opacity: 0.25;
 }
 
-.location-modal .close-modal {
+.location-modal__close-button {
   background-color: transparent;
   border: 0;
   color: rgba(255, 255, 255, 0);
@@ -60,8 +60,8 @@
   width: 20px;
 }
 
-.location-modal .close-modal::after,
-.location-modal .close-modal::before {
+.location-modal__close-button::after,
+.location-modal__close-button::before {
   background-color: #fff;
   display: block;
   content: "";
@@ -72,7 +72,7 @@
   width: 20px;
 }
 
-.location-modal .close-modal::before {
+.location-modal__close-button::before {
   height: 20px;
   width: 2px;
   top: 0;
@@ -116,13 +116,27 @@
   border: 1px solid var(--ui-secondary-color);
   border-radius: 3px;
   color: #fff;
-
-  /* font-weight: 200;
-  font-size: 2em; */
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 10px 15px;
   transition: background-color 150ms ease-in;
   width: 200px;
+}
+
+.location-modal__form textarea {
+  resize: none;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid var(--ui-secondary-color);
+  border-radius: 3px;
+  color: #fff;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  width: 12.1rem;
+  height: 3.5rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #fff;
 }
 
 .location-modal__form input:focus {

@@ -17,7 +17,7 @@
             <li class="weather-card__location"></li>
           </ul>
 
-          <button class="weather-card__change-location">Change Location</button>
+          <button class="weather-card__change-location-button">Change Location</button>
 
           <ul>
             <li class="weather-card__icon"><span class="weather-card__description"></span></li>
@@ -38,18 +38,25 @@
             <dt>Wind Speed</dt>
             <dd class="weather-card__wind-speed"></dd>
           </dl>
+
+          <dl class="weather-card__details">
+            <dt>Feelings</dt>
+            <dd class="weather-card__feelings"></dd>
+          </dl>
         </article>
         <footer>Luca</footer>
       </section>
 
-      <aside class="location-modal">
+      <aside class="location-modal__container">
         <div class="location-modal__mask"></div>
         <form class="location-modal__form">
-          <label for="zip">Enter your zip code</label>
-          <input id="zip" type="number" name="zip" required />
+          <label for="location-modal__zip-field">Enter zip code</label>
+          <input id="location-modal__zip-field" type="number" name="zip" required />
+          <label for="location-modal__feelings-field">How are you feeling today?</label>
+          <textarea name="feelings" id="location-modal__feelings-field" required></textarea>
           <button type="submit" id="generate">Update Location</button>
         </form>
-        <button class="close-modal">Close</button>
+        <button class="location-modal__close-button">Close</button>
       </aside>
     </main>
 

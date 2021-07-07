@@ -34,7 +34,7 @@
   opacity: 0.5;
 }
 
-.weather-card__change-location {
+.weather-card__change-location-button {
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
@@ -51,8 +51,8 @@
   /* transition: background 350ms ease-out, color 350ms ease-out, opacity 350ms ease-out 400ms; */
 }
 
-.weather-card__change-location:hover,
-.weather-card__change-location:focus {
+.weather-card__change-location-button:hover,
+.weather-card__change-location-button:focus {
   background: #b7daf4;
   color: #100f26;
 }
