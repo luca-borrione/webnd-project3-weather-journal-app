@@ -1,13 +1,28 @@
 # Weather-Journal App Project
 
-## Overview
+## Demo:
 
-This project requires you to create an asynchronous web app that uses Web API and user data to dynamically update the UI.
+This project has been published to my personal heroku account and can be viewed visiting<br /> [https://my-weather-journal-app.herokuapp.com/](https://my-weather-journal-app.herokuapp.com/)
 
-## Instructions
+## Overview:
 
-This will require modifying the `server.js` file and the `public/app.js` file. You can see `index.html` for element references, and once you are finished with the project steps, you can use `style.css` to style your application to customized perfection.
+This is the third assessment project for the Udacity's [Front End Web Developer Nanodegree program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011)
 
-## Extras
+It requires the student to create an asynchronous web app that uses the [OpenWeatherMap](https://openweathermap.org/) API and user data to dynamically update the UI for a Weather-Journal App.
 
-If you are interested in testing your code as you go, you can use `tests.js` as a template for writing and running some basic tests for your code.
+The project I realised meets the [project specifications](https://review.udacity.com/#!/rubrics/2655/view) required by Udacity.
+
+## Extras:
+
+- The app auto detects the preferred language set on the browser and will localise the content accordingly
+- The code is fully tested with unit tests using Jest
+
+## Tech Stack:
+
+- HTML
+- CSS
+- JavaScript
+- ExpressJS
+- Node
+- Yarn
+- Jest
