@@ -55,11 +55,13 @@ describe('server', () => {
     requireServer();
   };
 
-  beforeEach(prepareTest);
+  beforeEach(() => {
+    process.env.PORT = 3333;
+    prepareTest();
+  });
 
   afterEach(() => {
     closeServer();
-    delete process.env.PORT;
   });
 
   it('should implement CORS', async () => {
@@ -96,9 +98,6 @@ describe('server', () => {
 
   describe('ports', () => {
     it('should use process.env.PORT if set', async () => {
-      process.env.PORT = 3333;
-      prepareTest();
-
       const result = await portUsed(3333);
       expect(result).toBe(true);
     });
@@ -106,7 +105,6 @@ describe('server', () => {
     it('should default to port 3000 if process.env.PORT if not set', async () => {
       delete process.env.PORT;
       prepareTest();
-
       const result = await portUsed(3000);
       expect(result).toBe(true);
     });
