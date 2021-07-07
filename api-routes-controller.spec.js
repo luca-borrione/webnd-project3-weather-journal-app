@@ -110,6 +110,7 @@ describe('api-routes-controller', () => {
     const requiredParams = {
       appid: 'MOCK-APP-ID',
       lang: 'mock-lang',
+      units: 'imperial',
       zip: 'mock-zip',
     };
 
@@ -127,7 +128,7 @@ describe('api-routes-controller', () => {
       expect(mockFetch).toHaveBeenCalledTimes(1);
       const parsedUrl = new URL(mockFetch.mock.calls[0][0]);
       const queryParams = Object.fromEntries(new URLSearchParams(parsedUrl.search));
-      expect(queryParams).toMatchObject(expect.objectContaining(requiredParams));
+      expect(queryParams).toStrictEqual(requiredParams);
     });
 
     it('should call fetch sending undefined appid if not set in the env', async () => {

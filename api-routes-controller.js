@@ -13,8 +13,13 @@ module.exports = {
   getSearch: async (req, res, next) => {
     try {
       const { lang, zip } = req.query;
-      const params = { lang, zip };
-      const response = await fetch(`${BASE_URL}?appid=${APP_ID}&${new URLSearchParams(params).toString()}`);
+      const params = {
+        appid: APP_ID,
+        units: 'imperial',
+        lang,
+        zip,
+      };
+      const response = await fetch(`${BASE_URL}?${new URLSearchParams(params).toString()}`);
       const results = await response.json();
       if (response.status !== 200) {
         next(results.message);
